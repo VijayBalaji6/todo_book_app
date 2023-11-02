@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:todo/view/todo_screen/todo_home_screen.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo/constants/colors.dart';
+import 'package:todo/view/home_screen/home_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -8,10 +10,14 @@ class SplashScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 2)).then((value) =>
         Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const TodoHomeScreen())));
+            MaterialPageRoute(builder: (context) => const HomeScreen())));
     return Scaffold(
+      backgroundColor: AppColors.primaryLight,
       body: Center(
-        child: Image.asset("assets/app_logo/todo_app_logo.png"),
+        child: SizedBox(
+            height: 200.sp,
+            width: 200.sp,
+            child: Image.asset("assets/app_logo/todo_app_logo.png")),
       ),
     );
   }

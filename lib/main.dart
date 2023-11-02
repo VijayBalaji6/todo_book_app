@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+import 'package:todo/bloc/auth/auth_bloc.dart';
 import 'package:todo/bloc/todo/todo_bloc.dart';
+import 'package:todo/constants/colors.dart';
 import 'package:todo/model/todo_model.dart';
 import 'package:todo/view/splash_screen/splash_screen.dart';
 
@@ -15,6 +18,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
+        BlocProvider(create: (context) => AuthBloc()),
         BlocProvider(
           create: (context) => TodoBloc()
             ..add(LoadTodoEvent(todos: [
@@ -35,14 +39,20 @@ class MyApp extends StatelessWidget {
             ])),
         ),
       ],
-      child: MaterialApp(
-        debugShowCheckedModeBanner: false,
-        title: 'To-Do',
-        theme: ThemeData(
-          colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
-          useMaterial3: true,
+      child: ScreenUtilInit(
+        designSize: const Size(360, 690),
+        minTextAdapt: true,
+        splitScreenMode: false,
+        child: MaterialApp(
+          debugShowCheckedModeBanner: false,
+          title: 'To-Do',
+          theme: ThemeData(
+            colorScheme:
+                ColorScheme.fromSeed(seedColor: AppColors.secondaryLight),
+            useMaterial3: true,
+          ),
+          home: const SplashScreen(),
         ),
-        home: const SplashScreen(),
       ),
     );
   }

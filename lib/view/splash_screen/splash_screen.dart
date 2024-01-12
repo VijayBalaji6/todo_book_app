@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/constants/colors.dart';
-import 'package:todo/view/home_screen/home_screen.dart';
+import 'package:todo/view/authentication_screen/sign_in_screen.dart';
 
 class SplashScreen extends StatelessWidget {
   const SplashScreen({super.key});
@@ -9,8 +9,8 @@ class SplashScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     Future.delayed(const Duration(seconds: 2)).then((value) =>
-        Navigator.pushReplacement(context,
-            MaterialPageRoute(builder: (context) => const HomeScreen())));
+        Navigator.pushReplacement(
+            context, MaterialPageRoute(builder: (context) => SignInScreen())));
     return Scaffold(
       backgroundColor: AppColors.primaryLight,
       body: Center(

@@ -67,7 +67,8 @@ class _AddEditTodoScreenState extends State<AddEditTodoScreen> {
               ),
               TextFormField(
                 controller: todoTitle,
-                decoration: CommonStylesAndWidget.textfield(hintTitle: "Title"),
+                decoration: CommonStylesAndWidget.textfieldDecoration(
+                    hintTitle: "Title"),
                 style: const TextStyle(),
               ),
               const SizedBox(
@@ -75,15 +76,15 @@ class _AddEditTodoScreenState extends State<AddEditTodoScreen> {
               ),
               TextFormField(
                 controller: todoDetail,
-                decoration:
-                    CommonStylesAndWidget.textfield(hintTitle: "Description"),
+                decoration: CommonStylesAndWidget.textfieldDecoration(
+                    hintTitle: "Description"),
               ),
               const SizedBox(
                 height: 20,
               ),
               TextFormField(
                 controller: todoNote,
-                decoration: CommonStylesAndWidget.textfield(
+                decoration: CommonStylesAndWidget.textfieldDecoration(
                     hintTitle: "Hint (optional)"),
               ),
               const SizedBox(

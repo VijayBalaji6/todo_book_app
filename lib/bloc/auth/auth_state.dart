@@ -9,14 +9,39 @@ sealed class AuthState extends Equatable {
 
 final class AuthInitial extends AuthState {}
 
-final class SigningInState extends AuthState {}
+/// Sign In States
+final class SigningInState extends AuthState {
+  final String signingInMessage;
+  const SigningInState({required this.signingInMessage});
+}
 
-final class SignedInSuccessState extends AuthState {}
+final class SignedInSuccessState extends AuthState {
+  final String successMessage;
+  const SignedInSuccessState({required this.successMessage});
+}
 
-final class SignedInFailedState extends AuthState {}
+final class SignedInFailedState extends AuthState {
+  final String failerMessage;
+  const SignedInFailedState({required this.failerMessage});
+}
 
-final class SigningUpState extends AuthState {}
+/// Sign up States
+final class SigningUpState extends AuthState {
+  final String signingUpMessage;
+  const SigningUpState({required this.signingUpMessage});
+}
 
-final class SignedUpSuccessState extends AuthState {}
+final class SignedUpSuccessState extends AuthState {
+  final String signingUpSuccessMessage;
+  const SignedUpSuccessState({required this.signingUpSuccessMessage});
+}
 
-final class SignedUpFailedState extends AuthState {}
+final class SignedUpFailedState extends AuthState {
+  final String signingUpFailureMessage;
+  const SignedUpFailedState({required this.signingUpFailureMessage});
+}
+
+final class SignedUpEventErrorState extends AuthState {
+  final String signedUpEventErrorMsg;
+  const SignedUpEventErrorState({required this.signedUpEventErrorMsg});
+}

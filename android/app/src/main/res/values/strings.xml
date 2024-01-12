@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+<string name="app_name">Fuel It</string>
+<string name="facebook_app_id">869196334950112</string>
+<string name="fb_login_protocol_scheme">fb869196334950112</string>
+<string name="facebook_client_token">4179bc60d221107511c335e6f5c874fd</string>
+</resources>

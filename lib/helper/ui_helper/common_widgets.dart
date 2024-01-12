@@ -11,10 +11,10 @@ class CommonStylesAndWidget {
             style: buttonTextStyle(),
           ));
 
-  static InputDecoration textfield({
-    required String hintTitle,
-  }) {
+  static InputDecoration textfieldDecoration(
+      {required String hintTitle, IconData? preFixIcon}) {
     return InputDecoration(
+      prefixIcon: preFixIcon != null ? Icon(preFixIcon) : null,
       hintText: hintTitle,
       border: const OutlineInputBorder(
           borderSide: BorderSide(width: 3, color: Colors.greenAccent)),

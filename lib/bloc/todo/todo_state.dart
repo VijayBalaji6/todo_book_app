@@ -7,7 +7,11 @@ sealed class TodoState extends Equatable {
   List<Object> get props => [];
 }
 
-class TodoLoading extends TodoState {}
+/// Tod.s
+class TodoLoading extends TodoState {
+  @override
+  List<Object> get props => [];
+}
 
 class TodoLoaded extends TodoState {
   final List<TodoModel> todoList;
@@ -16,4 +20,7 @@ class TodoLoaded extends TodoState {
   List<Object> get props => [todoList];
 }
 
-class TodoError extends TodoState {}
+class TodoError extends TodoState {
+  @override
+  List<Object> get props => [];
+}

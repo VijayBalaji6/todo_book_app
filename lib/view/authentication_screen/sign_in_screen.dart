@@ -5,6 +5,7 @@ import 'package:todo/bloc/auth/auth_bloc.dart';
 import 'package:todo/constants/colors.dart';
 import 'package:todo/helper/ui_helper/common_widgets.dart';
 import 'package:todo/view/authentication_screen/sign_up_screen.dart';
+import 'package:todo/view/home_screen/home_screen.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
@@ -19,7 +20,11 @@ class SignInScreen extends StatelessWidget {
           CommonStylesAndWidget.showSnackbar(
               context: context,
               snackBarMessage: "Signed In As : ${state.successMessage}");
-          //Navigator.of(context).pushAndRemoveUntil(const TodoHomeScreen(), (route) => false);
+          Navigator.of(context).pushAndRemoveUntil(
+              MaterialPageRoute(
+                builder: (context) => const HomeScreen(),
+              ),
+              (route) => false);
         } else if (state is SignedInFailedState) {
           CommonStylesAndWidget.showSnackbar(
               context: context,

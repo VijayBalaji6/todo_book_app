@@ -1,3 +1,5 @@
+
+
 part of 'auth_bloc.dart';
 
 sealed class AuthState extends Equatable {
@@ -7,7 +9,9 @@ sealed class AuthState extends Equatable {
   List<Object> get props => [];
 }
 
-final class AuthInitial extends AuthState {}
+final class AuthInitial extends AuthState {
+  
+}
 
 /// Sign In States
 final class SigningInState extends AuthState {
@@ -17,7 +21,9 @@ final class SigningInState extends AuthState {
 
 final class SignedInSuccessState extends AuthState {
   final String successMessage;
-  const SignedInSuccessState({required this.successMessage});
+  final UserModel user;
+  const SignedInSuccessState(
+      {required this.user, required this.successMessage});
 }
 
 final class SignedInFailedState extends AuthState {

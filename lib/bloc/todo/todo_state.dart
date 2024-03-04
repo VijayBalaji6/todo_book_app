@@ -14,13 +14,18 @@ class TodoLoading extends TodoState {
 }
 
 class TodoLoaded extends TodoState {
-  final List<TodoModel> todoList;
-  const TodoLoaded({this.todoList = const <TodoModel>[]});
+  final List<Todo> todoList;
+  const TodoLoaded({this.todoList = const <Todo>[]});
   @override
   List<Object> get props => [todoList];
 }
 
 class TodoError extends TodoState {
+  @override
+  List<Object> get props => [];
+}
+
+class RegisterTodoService extends TodoState {
   @override
   List<Object> get props => [];
 }

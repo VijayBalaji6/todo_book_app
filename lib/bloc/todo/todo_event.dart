@@ -7,29 +7,37 @@ sealed class TodoEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class LoadTodoEvent extends TodoEvent {
-  final List<TodoModel> todos;
-  const LoadTodoEvent({this.todos = const <TodoModel>[]});
+class RegisterServicesEvent extends TodoEvent {
+  const RegisterServicesEvent();
   @override
-  List<Object> get props => [todos];
+  List<Object> get props => [];
+}
+
+class LoadTodoEvent extends TodoEvent {
+  final String userId;
+
+  const LoadTodoEvent({required this.userId});
+
+  @override
+  List<Object> get props => [userId];
 }
 
 class AddTodoEvent extends TodoEvent {
-  final TodoModel todo;
+  final Todo todo;
   const AddTodoEvent({required this.todo});
   @override
   List<Object> get props => [todo];
 }
 
 class EditTodoEvent extends TodoEvent {
-  final TodoModel todo;
+  final Todo todo;
   const EditTodoEvent({required this.todo});
   @override
   List<Object> get props => [todo];
 }
 
 class DeleteTodoEvent extends TodoEvent {
-  final TodoModel todo;
+  final Todo todo;
   const DeleteTodoEvent({required this.todo});
   @override
   List<Object> get props => [todo];

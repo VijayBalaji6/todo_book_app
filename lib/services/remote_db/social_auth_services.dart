@@ -1,0 +1,3 @@
+class SocialAuthServices {
+  decodeGoogleCredential() {}
+}

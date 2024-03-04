@@ -2,12 +2,13 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/constants/colors.dart';
 import 'package:todo/constants/notifiers.dart';
-import 'package:todo/view/authentication_screen/sign_in_screen.dart';
+import 'package:todo/model/user.dart';
 import 'package:todo/view/settings_screen/settings_screen.dart';
 import 'package:todo/view/todo_screen/todo_home_screen.dart';
 
 class HomeScreen extends StatelessWidget {
-  const HomeScreen({super.key});
+  final UserModel user;
+  const HomeScreen({super.key, required this.user});
 
   @override
   Widget build(BuildContext context) {
@@ -52,13 +53,15 @@ class HomeScreen extends StatelessWidget {
   Widget getHomePageBody({required int currentSelectedPage}) {
     switch (currentSelectedPage) {
       case 0:
-        return const TodoHomeScreen();
+        return TodoHomeScreen(
+          userData: user,
+        );
       case 1:
-        return SignInScreen();
+        return const SettingsScreen();
       case 2:
         return const SettingsScreen();
       default:
-        return const TodoHomeScreen();
+        return const SettingsScreen();
     }
   }
 }

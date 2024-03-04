@@ -1,26 +1,26 @@
 import 'dart:convert';
 
-class AccountModel {
+class UserModel {
   String userName;
-  String accountId;
+  String userId;
   String loginType;
   String userProfileImage;
-  AccountModel({
+  UserModel({
     required this.userName,
-    required this.accountId,
+    required this.userId,
     required this.loginType,
     required this.userProfileImage,
   });
 
-  AccountModel copyWith({
+  UserModel copyWith({
     String? userName,
     String? accountId,
     String? loginType,
     String? userProfileImage,
   }) {
-    return AccountModel(
+    return UserModel(
       userName: userName ?? this.userName,
-      accountId: accountId ?? this.accountId,
+      userId: accountId ?? userId,
       loginType: loginType ?? this.loginType,
       userProfileImage: userProfileImage ?? this.userProfileImage,
     );
@@ -29,16 +29,16 @@ class AccountModel {
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
       'userName': userName,
-      'accountId': accountId,
+      'accountId': userId,
       'loginType': loginType,
       'userProfileImage': userProfileImage,
     };
   }
 
-  factory AccountModel.fromMap(Map<String, dynamic> map) {
-    return AccountModel(
+  factory UserModel.fromMap(Map<String, dynamic> map) {
+    return UserModel(
       userName: map['userName'] as String,
-      accountId: map['accountId'] as String,
+      userId: map['accountId'] as String,
       loginType: map['loginType'] as String,
       userProfileImage: map['userProfileImage'] as String,
     );
@@ -46,6 +46,6 @@ class AccountModel {
 
   String toJson() => json.encode(toMap());
 
-  factory AccountModel.fromJson(String source) =>
-      AccountModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory UserModel.fromJson(String source) =>
+      UserModel.fromMap(json.decode(source) as Map<String, dynamic>);
 }

@@ -2,11 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/bloc/todo/todo_bloc.dart';
 import 'package:todo/helper/ui_helper/common_widgets.dart';
-import 'package:todo/model/todo_model.dart';
+import 'package:todo/model/todo.dart';
 
 class AddEditTodoScreen extends StatefulWidget {
   const AddEditTodoScreen({super.key, this.todo});
-  final TodoModel? todo;
+  final Todo? todo;
 
   @override
   State<AddEditTodoScreen> createState() => _AddEditTodoScreenState();
@@ -19,7 +19,7 @@ class _AddEditTodoScreenState extends State<AddEditTodoScreen> {
 
   final TextEditingController todoNote = TextEditingController();
 
-  TodoModel? editTodoData;
+  Todo? editTodoData;
   @override
   void initState() {
     editTodoData = widget.todo;
@@ -93,18 +93,20 @@ class _AddEditTodoScreenState extends State<AddEditTodoScreen> {
               CommonStylesAndWidget.commonAppButton(
                   buttonName: editTodo ? 'Edit Todo' : 'Add Todo',
                   buttonAction: () {
-                    final TodoModel todoData = TodoModel(
-                        title: todoTitle.text,
-                        id: editTodo
-                            ? editTodoData!.id
-                            : DateTime.now().toString(),
-                        content: todoDetail.text,
-                        note: todoNote.text.trim().isNotEmpty
-                            ? todoNote.text.trim()
-                            : null,
-                        todoStatus: editTodo
-                            ? editTodoData!.todoStatus
-                            : TodoStatus.active);
+                    final Todo todoData = Todo(
+                      userID: "",
+                      title: todoTitle.text,
+                      id: editTodo
+                          ? editTodoData!.id
+                          : DateTime.now().toString(),
+                      content: todoDetail.text,
+                      note: todoNote.text.trim().isNotEmpty
+                          ? todoNote.text.trim()
+                          : null,
+                      todoStatus: editTodo
+                          ? editTodoData!.todoStatus
+                          : TodoStatus.active,
+                    );
                     if (editTodo) {
                       context
                           .read<TodoBloc>()

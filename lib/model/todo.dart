@@ -1,16 +1,31 @@
 // ignore_for_file: public_member_api_docs, sort_constructors_first
 import 'dart:convert';
 
+import 'package:hive/hive.dart';
+
+part 'todo.g.dart';
+
 enum TodoStatus { inActive, active, completed }
 
-class TodoModel {
+@HiveType(typeId: 1)
+class Todo extends HiveObject {
+  @HiveField(0)
+  String userID;
+  @HiveField(1)
   String title;
+  @HiveField(2)
   String id;
+  @HiveField(3)
   String content;
+  @HiveField(4)
   String? note;
+  @HiveField(5)
   DateTime? todoTime;
+  @HiveField(6)
   TodoStatus todoStatus;
-  TodoModel({
+
+  Todo({
+    required this.userID,
     required this.title,
     required this.id,
     required this.content,
@@ -19,7 +34,8 @@ class TodoModel {
     required this.todoStatus,
   });
 
-  TodoModel copyWith({
+  Todo copyWith({
+    required int userID,
     String? title,
     String? id,
     String? content,
@@ -27,7 +43,8 @@ class TodoModel {
     DateTime? todoTime,
     TodoStatus? todoStatus,
   }) {
-    return TodoModel(
+    return Todo(
+      userID: this.userID,
       title: title ?? this.title,
       id: id ?? this.id,
       content: content ?? this.content,
@@ -39,6 +56,7 @@ class TodoModel {
 
   Map<String, dynamic> toMap() {
     return <String, dynamic>{
+      'userID': userID,
       'title': title,
       'id': id,
       'content': content,
@@ -48,8 +66,9 @@ class TodoModel {
     };
   }
 
-  factory TodoModel.fromMap(Map<String, dynamic> map) {
-    return TodoModel(
+  factory Todo.fromMap(Map<String, dynamic> map) {
+    return Todo(
+      userID: map['userID'],
       title: map['title'] as String,
       id: map['id'] as String,
       content: map['content'] as String,
@@ -63,8 +82,8 @@ class TodoModel {
 
   String toJson() => json.encode(toMap());
 
-  factory TodoModel.fromJson(String source) =>
-      TodoModel.fromMap(json.decode(source) as Map<String, dynamic>);
+  factory Todo.fromJson(String source) =>
+      Todo.fromMap(json.decode(source) as Map<String, dynamic>);
 
   @override
   String toString() {

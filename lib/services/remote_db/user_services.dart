@@ -2,6 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:todo/model/user.dart';
 
 class UserServices {
+  UserServices._internal();
+  static final UserServices _instance = UserServices._internal();
+
+  static UserServices get instance => _instance;
+
   final CollectionReference _userCollection =
       FirebaseFirestore.instance.collection('users');
 

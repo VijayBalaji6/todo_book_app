@@ -3,6 +3,11 @@ import 'package:flutter_facebook_auth/flutter_facebook_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
 class AuthServices {
+  AuthServices._internal();
+  static final AuthServices _instance = AuthServices._internal();
+
+  static AuthServices get instance => _instance;
+
   final FirebaseAuth firebaseInstance = FirebaseAuth.instance;
 
   Exception handleFirebaseException(e) {

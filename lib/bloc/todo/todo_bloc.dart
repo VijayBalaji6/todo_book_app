@@ -13,7 +13,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   TodoBloc(
     this._todoLocalServices,
   ) : super(RegisterTodoService()) {
-    on<RegisterServicesEvent>(_registeringServicesEvent);
+    on<RegisterTodoServicesEvent>(_registeringServicesEvent);
     on<LoadTodoEvent>(_onLoadTodo);
     on<AddTodoEvent>(_onAddTodo);
     on<DeleteTodoEvent>(_onDeleteTodo);
@@ -21,7 +21,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   Future<void> _registeringServicesEvent(
-      RegisterServicesEvent event, Emitter<TodoState> emit) async {
+      RegisterTodoServicesEvent event, Emitter<TodoState> emit) async {
     await _todoLocalServices.init();
   }
 
@@ -36,6 +36,15 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   }
 
   void _onAddTodo(AddTodoEvent event, Emitter<TodoState> emit) {
+    emit(TodoLoading());
+    try {
+      _todoLocalServices.addTodoInLocalDB(todoData: event.todo);
+      final userTodo = _todoLocalServices.getAllTodo(userId: event.todo.userID);
+      emit(TodoLoaded(todoList: userTodo));
+    } catch (e) {
+      emit(TodoError());
+    }
+
     final state = this.state;
     if (state is TodoLoaded) {
       emit(TodoLoaded(todoList: List.from(state.todoList)..add(event.todo)));

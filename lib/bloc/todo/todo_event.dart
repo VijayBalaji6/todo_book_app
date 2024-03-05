@@ -7,8 +7,8 @@ sealed class TodoEvent extends Equatable {
   List<Object> get props => [];
 }
 
-class RegisterServicesEvent extends TodoEvent {
-  const RegisterServicesEvent();
+class RegisterTodoServicesEvent extends TodoEvent {
+  const RegisterTodoServicesEvent();
   @override
   List<Object> get props => [];
 }

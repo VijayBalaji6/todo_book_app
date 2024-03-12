@@ -6,6 +6,7 @@ import 'package:hive_flutter/hive_flutter.dart';
 import 'package:todo/bloc/auth/auth_bloc.dart';
 import 'package:todo/bloc/todo/todo_bloc.dart';
 import 'package:todo/constants/colors.dart';
+import 'package:todo/constants/theme.dart';
 import 'package:todo/firebase_options.dart';
 import 'package:todo/model/todo.dart';
 import 'package:todo/services/local_db/todo_local_services.dart';
@@ -51,11 +52,7 @@ class MyApp extends StatelessWidget {
         child: MaterialApp(
           debugShowCheckedModeBanner: false,
           title: 'To-Do',
-          theme: ThemeData(
-            colorScheme:
-                ColorScheme.fromSeed(seedColor: AppColors.secondaryLight),
-            useMaterial3: true,
-          ),
+          theme: AppTheme.myAppTheme,
           home: const SplashScreen(),
         ),
       ),

@@ -4,26 +4,28 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/bloc/auth/auth_bloc.dart';
 import 'package:todo/bloc/todo/todo_bloc.dart';
 import 'package:todo/constants/colors.dart';
-import 'package:todo/helper/ui_helper/common_widgets.dart';
+import 'package:todo/common_widgets/common_app_button.dart';
+import 'package:todo/common_widgets/common_widgets.dart';
 import 'package:todo/view/authentication_screen/sign_up_screen.dart';
 import 'package:todo/view/home_screen/home_screen.dart';
 
 class SignInScreen extends StatelessWidget {
   SignInScreen({super.key});
-  final TextEditingController emailTextField = TextEditingController();
-  final TextEditingController passwordTextField = TextEditingController();
-
+  final TextEditingController _emailTextField = TextEditingController();
+  final TextEditingController _passwordTextField = TextEditingController();
+  final _signInFormKey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       backgroundColor: AppColors.primaryLight,
       body: BlocConsumer<AuthBloc, AuthState>(
-        listener: (context, state) async {
+        listener: (context, state) {
           if (state is SignedInSuccessState) {
             CommonStylesAndWidget.showSnackbar(
                 context: context,
                 snackBarMessage: "Signed In As : ${state.successMessage}");
+            context.read<TodoBloc>().add(const RegisterTodoServicesEvent());
             context
                 .read<TodoBloc>()
                 .add(LoadTodoEvent(userId: state.user.userId));
@@ -42,96 +44,121 @@ class SignInScreen extends StatelessWidget {
         },
         builder: (context, state) {
           bool isSigningUp = state is SigningInState;
-          return Padding(
-            padding: EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.1.sh),
-            child: SingleChildScrollView(
-              child: Column(
-                mainAxisSize: MainAxisSize.min,
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: [
-                  Center(
-                    child: Text(
-                      'Sign In',
+          return Form(
+            key: _signInFormKey,
+            child: Padding(
+              padding:
+                  EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.1.sh),
+              child: SingleChildScrollView(
+                child: Column(
+                  mainAxisSize: MainAxisSize.min,
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  crossAxisAlignment: CrossAxisAlignment.center,
+                  children: [
+                    Center(
+                      child: Text(
+                        'Sign In',
+                        style: TextStyle(
+                            fontSize: 25.sp, fontWeight: FontWeight.bold),
+                      ),
+                    ),
+                    SizedBox(
+                      height: 30.sp,
+                    ),
+                    TextFormField(
+                      controller: _emailTextField,
+                      decoration: CommonStylesAndWidget.textfieldDecoration(
+                          preFixIcon: Icons.email, hintTitle: "Email"),
+                      style: const TextStyle(),
+                    ),
+                    SizedBox(
+                      height: 30.sp,
+                    ),
+                    TextFormField(
+                      controller: _passwordTextField,
+                      obscureText: true,
+                      decoration: CommonStylesAndWidget.textfieldDecoration(
+                          suffixIcon: Icons.lock,
+                          preFixIcon: Icons.key,
+                          hintTitle: "Password"),
+                      style: const TextStyle(),
+                    ),
+                    SizedBox(
+                      height: 30.sp,
+                    ),
+                    CommonAppButton(
+                      buttonAction: !isSigningUp
+                          ? () {
+                              context.read<AuthBloc>().add(EmailSignInEvent(
+                                  email:
+                                      _emailTextField.text.trim().toLowerCase(),
+                                  password: _passwordTextField.text.trim()));
+                            }
+                          : null,
+                      buttonName:
+                          isSigningUp ? state.signingInMessage : 'Sign In',
+                    ),
+                    SizedBox(
+                      height: 30.sp,
+                    ),
+                    GestureDetector(
+                      onTap: () => Navigator.pushReplacement(
+                        context,
+                        MaterialPageRoute(builder: (context) => SignUpScreen()),
+                      ),
+                      child: RichText(
+                          text: TextSpan(
+                              text: "Don't have an Account? ",
+                              style: TextStyle(
+                                color: Colors.white,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 15.sp,
+                              ),
+                              children: [
+                            TextSpan(
+                              text: "Sign Up",
+                              style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: AppColors.primaryDark,
+                                fontSize: 18.sp,
+                              ),
+                            ),
+                          ])),
+                    ),
+                    SizedBox(
+                      height: 150.sp,
+                    ),
+                    Text(
+                      "---- or ----",
                       style: TextStyle(
-                          fontSize: 25.sp, fontWeight: FontWeight.bold),
+                        color: Colors.white,
+                        fontWeight: FontWeight.bold,
+                        fontSize: 15.sp,
+                      ),
                     ),
-                  ),
-                  SizedBox(
-                    height: 30.sp,
-                  ),
-                  TextFormField(
-                    controller: emailTextField,
-                    decoration: CommonStylesAndWidget.textfieldDecoration(
-                        preFixIcon: Icons.email, hintTitle: "Email"),
-                    style: const TextStyle(),
-                  ),
-                  SizedBox(
-                    height: 30.sp,
-                  ),
-                  TextFormField(
-                    controller: passwordTextField,
-                    decoration: CommonStylesAndWidget.textfieldDecoration(
-                        preFixIcon: Icons.key, hintTitle: "Password"),
-                    style: const TextStyle(),
-                  ),
-                  SizedBox(
-                    height: 30.sp,
-                  ),
-                  CommonStylesAndWidget.commonAppButton(
-                    buttonAction: !isSigningUp
-                        ? () {
-                            context.read<AuthBloc>().add(EmailSignInEvent(
-                                email: emailTextField.text.toLowerCase(),
-                                password: passwordTextField.text));
-                          }
-                        : null,
-                    buttonName:
-                        isSigningUp ? state.signingInMessage : 'Sign In',
-                  ),
-                  SizedBox(
-                    height: 30.sp,
-                  ),
-                  GestureDetector(
-                    onTap: () => Navigator.pushReplacement(
-                      context,
-                      MaterialPageRoute(builder: (context) => SignUpScreen()),
+                    const SizedBox(
+                      height: 20,
                     ),
-                    child: RichText(
-                        text: TextSpan(
-                            text: "Don't have an Account? ",
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 15.sp,
-                            ),
-                            children: [
-                          TextSpan(
-                            text: "Sign Up",
-                            style: TextStyle(
-                              fontWeight: FontWeight.bold,
-                              color: AppColors.primaryDark,
-                              fontSize: 18.sp,
-                            ),
-                          ),
-                        ])),
-                  ),
-                  SizedBox(
-                    height: 150.sp,
-                  ),
-                  Text(
-                    "Sign In using Social account",
-                    style: TextStyle(
-                      color: Colors.white,
-                      fontWeight: FontWeight.bold,
-                      fontSize: 15.sp,
+                    CommonAppButton(
+                      buttonName: 'Login with Facebook',
+                      buttonAction: () => context
+                          .read<AuthBloc>()
+                          .add(const FacebookSignInEvent()),
                     ),
-                  ),
-                  socialAuthIcons(context),
-                  SizedBox(
-                    height: 30.sp,
-                  ),
-                ],
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    CommonAppButton(
+                      buttonName: 'Login with Google',
+                      buttonAction: () => context
+                          .read<AuthBloc>()
+                          .add(const GoogleSignInEvent()),
+                    ),
+                    SizedBox(
+                      height: 30.sp,
+                    ),
+                  ],
+                ),
               ),
             ),
           );
@@ -139,33 +166,4 @@ class SignInScreen extends StatelessWidget {
       ),
     );
   }
-
-  Row socialAuthIcons(BuildContext context) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        socialAuthWidget(
-            iconName: Icons.facebook,
-            iconAction: () =>
-                context.read<AuthBloc>().add(const FacebookSignInEvent())),
-        const SizedBox(
-          width: 30,
-        ),
-        socialAuthWidget(
-            iconName: Icons.whatshot_sharp,
-            iconAction: () =>
-                context.read<AuthBloc>().add(const GoogleSignInEvent())),
-      ],
-    );
-  }
-
-  Widget socialAuthWidget(
-          {required IconData iconName, required void Function()? iconAction}) =>
-      IconButton(
-        icon: Icon(
-          iconName,
-          size: 40.sp,
-        ),
-        onPressed: iconAction,
-      );
 }

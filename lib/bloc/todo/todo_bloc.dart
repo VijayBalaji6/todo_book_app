@@ -28,45 +28,47 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   void _onLoadTodo(LoadTodoEvent event, Emitter<TodoState> emit) {
     emit(TodoLoading());
     try {
-      final userTodo = _todoLocalServices.getAllTodo(userId: event.userId);
+      final List<Todo> userTodo =
+          _todoLocalServices.getAllTodo(userId: event.userId);
       emit(TodoLoaded(todoList: userTodo));
     } catch (e) {
       emit(TodoError());
     }
   }
 
-  void _onAddTodo(AddTodoEvent event, Emitter<TodoState> emit) {
+  Future<void> _onAddTodo(AddTodoEvent event, Emitter<TodoState> emit) async {
     emit(TodoLoading());
     try {
-      _todoLocalServices.addTodoInLocalDB(todoData: event.todo);
-      final userTodo = _todoLocalServices.getAllTodo(userId: event.todo.userID);
-      emit(TodoLoaded(todoList: userTodo));
+      await _todoLocalServices.addTodoInLocalDB(todoData: event.todo);
     } catch (e) {
       emit(TodoError());
-    }
-
-    final state = this.state;
-    if (state is TodoLoaded) {
-      emit(TodoLoaded(todoList: List.from(state.todoList)..add(event.todo)));
+    } finally {
+      emit(TodoLoaded(
+          todoList: _todoLocalServices.getAllTodo(userId: event.todo.userID)));
     }
   }
 
-  void _onDeleteTodo(DeleteTodoEvent event, Emitter<TodoState> emit) {
-    final state = this.state;
-    if (state is TodoLoaded) {
-      List<Todo> todosAfterDeletion =
-          state.todoList.where((e) => e.id != event.todo.id).toList();
-      emit(TodoLoaded(todoList: todosAfterDeletion));
+  void _onDeleteTodo(DeleteTodoEvent event, Emitter<TodoState> emit) async {
+    emit(TodoLoading());
+    try {
+      await _todoLocalServices.removeTodo(todoData: event.todo);
+    } catch (e) {
+      emit(TodoError());
+    } finally {
+      emit(TodoLoaded(
+          todoList: _todoLocalServices.getAllTodo(userId: event.todo.userID)));
     }
   }
 
-  void _onEditTodo(EditTodoEvent event, Emitter<TodoState> emit) {
-    final state = this.state;
-    if (state is TodoLoaded) {
-      List<Todo> editedTodoList = state.todoList.map((element) {
-        return element.id == event.todo.id ? event.todo : element;
-      }).toList();
-      emit(TodoLoaded(todoList: editedTodoList));
+  void _onEditTodo(EditTodoEvent event, Emitter<TodoState> emit) async {
+    emit(TodoLoading());
+    try {
+      await _todoLocalServices.updateTodo(todoData: event.todo);
+    } catch (e) {
+      emit(TodoError());
+    } finally {
+      emit(TodoLoaded(
+          todoList: _todoLocalServices.getAllTodo(userId: event.todo.userID)));
     }
   }
 }

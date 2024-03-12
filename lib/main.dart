@@ -24,6 +24,7 @@ Future<void> main() async {
   /// Initializing hive local Db
   await Hive.initFlutter();
   Hive.registerAdapter(TodoAdapter());
+  Hive.registerAdapter(TodoStatusAdapter());
   runApp(const MyApp());
 }
 

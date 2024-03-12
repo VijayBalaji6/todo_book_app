@@ -3,7 +3,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/bloc/auth/auth_bloc.dart';
 import 'package:todo/constants/colors.dart';
-import 'package:todo/helper/ui_helper/common_widgets.dart';
+import 'package:todo/common_widgets/common_app_button.dart';
+import 'package:todo/common_widgets/common_widgets.dart';
 import 'package:todo/view/authentication_screen/sign_in_screen.dart';
 
 class SignUpScreen extends StatelessWidget {
@@ -76,7 +77,7 @@ class SignUpScreen extends StatelessWidget {
                   SizedBox(
                     height: 30.sp,
                   ),
-                  CommonStylesAndWidget.commonAppButton(
+                  CommonAppButton(
                     buttonAction: !isSigningUp
                         ? () {
                             context.read<AuthBloc>().add(EmailSignInEvent(

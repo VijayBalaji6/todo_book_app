@@ -103,12 +103,30 @@ class Todo extends HiveObject {
 
   static String _convertTodoStatus(TodoStatus status) {
     switch (status) {
-      case TodoStatus.inActive:
-        return 'inActive';
       case TodoStatus.active:
         return 'active';
       case TodoStatus.completed:
         return 'completed';
+      default:
+        return 'inActive';
     }
+  }
+}
+
+// TypeAdapter for TodoStatus enum
+class TodoStatusAdapter extends TypeAdapter<TodoStatus> {
+  @override
+  final typeId = 2; // Unique ID for this TypeAdapter
+
+  @override
+  TodoStatus read(BinaryReader reader) {
+    // Read enum value from binary
+    return TodoStatus.values[reader.readByte()];
+  }
+
+  @override
+  void write(BinaryWriter writer, TodoStatus obj) {
+    // Write enum value to binary
+    writer.writeByte(obj.index);
   }
 }

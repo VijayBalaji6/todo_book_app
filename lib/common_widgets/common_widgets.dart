@@ -1,34 +1,15 @@
 import 'package:flutter/material.dart';
 
 class CommonStylesAndWidget {
-  static ElevatedButton commonAppButton(
-          {Function()? buttonAction, required String buttonName}) =>
-      ElevatedButton(
-          onPressed: buttonAction,
-          style: buttonStyle(),
-          child: Text(
-            buttonName,
-            style: buttonTextStyle(),
-          ));
-
   static InputDecoration textfieldDecoration(
-      {required String hintTitle, IconData? preFixIcon}) {
+      {required String hintTitle, IconData? preFixIcon, IconData? suffixIcon}) {
     return InputDecoration(
       prefixIcon: preFixIcon != null ? Icon(preFixIcon) : null,
+      suffixIcon: suffixIcon != null ? Icon(suffixIcon) : null,
       hintText: hintTitle,
       border: const OutlineInputBorder(
           borderSide: BorderSide(width: 3, color: Colors.greenAccent)),
       hintMaxLines: 1,
-    );
-  }
-
-  static TextStyle buttonTextStyle() {
-    return const TextStyle(color: Colors.white, fontSize: 20);
-  }
-
-  static ButtonStyle buttonStyle() {
-    return const ButtonStyle(
-      backgroundColor: MaterialStatePropertyAll<Color>(Colors.black),
     );
   }
 

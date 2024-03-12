@@ -9,27 +9,29 @@ class TodoLocalServices {
 
   late Box<Todo> _todo;
 
+// Init todo services box
   Future<void> init() async {
     _todo = await Hive.openBox('todoBox');
   }
 
+// Add to new todo to hive DB
   Future<void> addTodoInLocalDB({required Todo todoData}) async {
     try {
-      await _todo.add(todoData);
+      await _todo.put(todoData.id, todoData);
     } catch (e) {
       rethrow;
     }
   }
 
+// get all todo from hive DB of user
   List<Todo> getAllTodo({required final String userId}) {
+    List<Todo> todos = [];
     try {
-      List<Todo> todos = _todo.values
-          .where(
-            ((element) => element.userID == userId),
-          )
-          .toList();
-      if (todos.isEmpty) {
-        return [];
+      for (int i = _todo.length - 1; i >= 0; i--) {
+        Todo? userMap = _todo.getAt(i);
+        if (userMap != null) {
+          todos.add(userMap);
+        }
       }
       return todos;
     } on Exception {
@@ -37,16 +39,23 @@ class TodoLocalServices {
     }
   }
 
-  Future updateTodo({required Todo todo}) async {
-    final todoToUpdate = _todo.values.firstWhere(
-        (element) => element.userID == todo.userID && element.id == todo.id);
-    int index = todoToUpdate.key as int;
-    await _todo.put(index, todo);
+// Update a particular todo from hive DB
+  Future<void> updateTodo({required Todo todoData}) async {
+    try {
+      await _todo.put(todoData.id, todoData);
+    } catch (e) {
+      rethrow;
+    }
   }
 
-  Future<void> removeTodo({required int userId, required String taskId}) async {
-    final todoToRemove = _todo.values.firstWhere(
-        (element) => element.userID == userId && element.id == taskId);
-    await todoToRemove.delete();
+// Remove a particular todo from hive DB
+  Future<void> removeTodo({required Todo todoData}) async {
+    try {
+      final todoToRemove = _todo.values.firstWhere((element) =>
+          element.userID == todoData.userID && element.id == todoData.id);
+      await todoToRemove.delete();
+    } catch (e) {
+      rethrow;
+    }
   }
 }

@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/bloc/todo/todo_bloc.dart';
-import 'package:todo/helper/ui_helper/common_widgets.dart';
+import 'package:todo/common_widgets/common_app_button.dart';
+import 'package:todo/common_widgets/common_widgets.dart';
 import 'package:todo/model/todo.dart';
 
 class AddEditTodoScreen extends StatefulWidget {
@@ -90,7 +91,7 @@ class _AddEditTodoScreenState extends State<AddEditTodoScreen> {
               const SizedBox(
                 height: 30,
               ),
-              CommonStylesAndWidget.commonAppButton(
+              CommonAppButton(
                   buttonName: editTodo ? 'Edit Todo' : 'Add Todo',
                   buttonAction: () {
                     final Todo todoData = Todo(

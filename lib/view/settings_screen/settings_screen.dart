@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
-import 'package:todo/helper/ui_helper/common_widgets.dart';
+import 'package:todo/common_widgets/common_app_button.dart';
+import 'package:todo/common_widgets/common_widgets.dart';
 import 'package:todo/view/authentication_screen/sign_in_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -16,11 +17,11 @@ class SettingsScreen extends StatelessWidget {
             CircleAvatar(
               child: Image.asset("assets/accounts/default_profile.png"),
             ),
-            CommonStylesAndWidget.commonAppButton(
+            CommonAppButton(
               buttonAction: () {},
               buttonName: 'Sync Account',
             ),
-            CommonStylesAndWidget.commonAppButton(
+            CommonAppButton(
               buttonAction: () async {
                 await FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(context,

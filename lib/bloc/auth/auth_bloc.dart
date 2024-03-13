@@ -71,9 +71,18 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
       EmailSignUpEvent event, Emitter<AuthState> emit) async {
     try {
       emit(const SigningUpState(signingUpMessage: 'Signing Up.....'));
-      await _authServices.firebaseEmailSignIn(
+      await _authServices.firebaseEmailSignUp(
           emailId: event.email, password: event.password);
-      emit(const SignedUpSuccessState(signingUpSuccessMessage: ""));
+      await _userServices.addUser(
+          userDate: UserModel(
+              userName: event.email,
+              userId: event.email,
+              loginType: "Email",
+              userProfileImage: ""));
+      final UserModel userData =
+          await _userServices.getUser(userId: event.email);
+      emit(SignedUpSuccessState(
+          successMessage: 'Signed up as ${userData.userName}', user: userData));
     } catch (e) {
       emit(SignedUpFailedState(signingUpFailureMessage: e.toString()));
     }

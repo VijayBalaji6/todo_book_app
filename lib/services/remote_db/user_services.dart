@@ -30,10 +30,10 @@ class UserServices {
 
   Future<void> addUser({required UserModel userDate}) async {
     try {
-      await _userCollection
-          .doc(userDate.userId)
-          .collection('test')
-          .add(userDate.toMap());
+      await FirebaseFirestore.instance
+          .collection('users')
+          .doc(userDate.userName)
+          .set({'user_data': userDate.toMap()});
     } catch (e) {
       rethrow;
     }

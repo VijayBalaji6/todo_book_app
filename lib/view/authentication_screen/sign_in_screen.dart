@@ -49,7 +49,9 @@ class SignInScreen extends StatelessWidget {
             child: Padding(
               padding:
                   EdgeInsets.symmetric(horizontal: 0.1.sw, vertical: 0.1.sh),
-              child: SingleChildScrollView(
+              child: SizedBox(
+                height: 1.sh,
+                width: 1.sw,
                 child: Column(
                   mainAxisSize: MainAxisSize.min,
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -70,6 +72,7 @@ class SignInScreen extends StatelessWidget {
                       decoration: CommonStylesAndWidget.textfieldDecoration(
                           preFixIcon: Icons.email, hintTitle: "Email"),
                       style: const TextStyle(),
+                      textInputAction: TextInputAction.next,
                     ),
                     SizedBox(
                       height: 30.sp,
@@ -81,6 +84,14 @@ class SignInScreen extends StatelessWidget {
                           suffixIcon: Icons.lock,
                           preFixIcon: Icons.key,
                           hintTitle: "Password"),
+                      textInputAction: TextInputAction.next,
+                      onFieldSubmitted: (value) {
+                        if (value.isNotEmpty) {
+                          context.read<AuthBloc>().add(EmailSignInEvent(
+                              email: _emailTextField.text.trim().toLowerCase(),
+                              password: _passwordTextField.text.trim()));
+                        }
+                      },
                       style: const TextStyle(),
                     ),
                     SizedBox(
@@ -125,9 +136,7 @@ class SignInScreen extends StatelessWidget {
                             ),
                           ])),
                     ),
-                    SizedBox(
-                      height: 150.sp,
-                    ),
+                    const Spacer(),
                     Text(
                       "---- or ----",
                       style: TextStyle(
@@ -153,9 +162,6 @@ class SignInScreen extends StatelessWidget {
                       buttonAction: () => context
                           .read<AuthBloc>()
                           .add(const GoogleSignInEvent()),
-                    ),
-                    SizedBox(
-                      height: 30.sp,
                     ),
                   ],
                 ),

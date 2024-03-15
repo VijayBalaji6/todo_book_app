@@ -25,12 +25,13 @@ dependencies:
   flutter_screenutil: 
   hive: 
   hive_flutter: 
+  go_router:
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
   flutter_lints: ^3.0.1
-  flutter_launcher_icons: "^0.13.1"
+  flutter_launcher_icons: ^0.13.1
   hive_generator:
   build_runner:
   

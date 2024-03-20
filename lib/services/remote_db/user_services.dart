@@ -7,9 +7,6 @@ class UserServices {
 
   static UserServices get instance => _instance;
 
-  final CollectionReference _userCollection =
-      FirebaseFirestore.instance.collection('users');
-
   Future<UserModel> getUser({required String userId}) async {
     try {
       final snapshot = await FirebaseFirestore.instance

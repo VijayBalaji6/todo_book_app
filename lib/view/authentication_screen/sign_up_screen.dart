@@ -24,8 +24,6 @@ class SignUpScreen extends StatelessWidget {
           CommonStylesAndWidget.showSnackbar(
               context: context,
               snackBarMessage: "Signed Up As : ${state.successMessage}");
-
-          context.read<TodoBloc>().add(const RegisterTodoServicesEvent());
           context
               .read<TodoBloc>()
               .add(LoadTodoEvent(userId: state.user.userId));
@@ -150,7 +148,7 @@ class SignUpScreen extends StatelessWidget {
                         buttonName: 'Sign up with Facebook',
                         buttonAction: () => context
                             .read<AuthBloc>()
-                            .add(const FacebookSignInEvent()),
+                            .add(const FacebookSignUpEvent()),
                       ),
                       SizedBox(
                         height: 30.sp,
@@ -159,7 +157,7 @@ class SignUpScreen extends StatelessWidget {
                         buttonName: 'Sign up with Google',
                         buttonAction: () => context
                             .read<AuthBloc>()
-                            .add(const FacebookSignInEvent()),
+                            .add(const GoogleSignUpEvent()),
                       ),
                     ],
                   ),

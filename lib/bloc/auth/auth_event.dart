@@ -40,6 +40,10 @@ class EmailSignUpEvent extends AuthEvent {
       ];
 }
 
-class FacebookSignUpEvent extends AuthEvent {}
+class FacebookSignUpEvent extends AuthEvent {
+  const FacebookSignUpEvent();
+}
 
-class GoogleSignUpEvent extends AuthEvent {}
+class GoogleSignUpEvent extends AuthEvent {
+  const GoogleSignUpEvent();
+}

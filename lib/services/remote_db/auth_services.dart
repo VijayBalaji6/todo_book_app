@@ -25,6 +25,32 @@ class AuthServices {
     }
   }
 
+  Future<void> firebaseEmailSignIn(
+      {required String emailId, required String password}) async {
+    try {
+      await firebaseInstance.signInWithEmailAndPassword(
+          email: emailId, password: password);
+    } on FirebaseAuthException catch (e) {
+      throw handleFirebaseException(e);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<void> firebaseEmailSignUp(
+      {required String emailId, required String password}) async {
+    try {
+      await FirebaseAuth.instance.createUserWithEmailAndPassword(
+        email: emailId,
+        password: password,
+      );
+    } on FirebaseAuthException catch (e) {
+      throw handleFirebaseException(e);
+    } catch (e) {
+      rethrow;
+    }
+  }
+
   Future<OAuthCredential> makeGoogleAuth() async {
     try {
       // Trigger the Google authentication flow
@@ -41,6 +67,22 @@ class AuthServices {
       );
 
       return credential;
+    } catch (e) {
+      rethrow;
+    }
+  }
+
+  Future<UserCredential> firebaseGoogleSignIn() async {
+    try {
+      // trying google auth
+      OAuthCredential googleAuthCredential = await makeGoogleAuth();
+
+      // Once signed in, making google sign up with firebase
+      UserCredential signedUserCredential = await FirebaseAuth.instance
+          .signInWithCredential(googleAuthCredential);
+      return signedUserCredential;
+    } on FirebaseAuthException catch (e) {
+      throw handleFirebaseException(e);
     } catch (e) {
       rethrow;
     }
@@ -65,35 +107,6 @@ class AuthServices {
     }
   }
 
-  Future<void> firebaseEmailSignIn(
-      {required String emailId, required String password}) async {
-    try {
-      await firebaseInstance.signInWithEmailAndPassword(
-          email: emailId, password: password);
-      // ToDo
-    } on FirebaseAuthException catch (e) {
-      throw handleFirebaseException(e);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  Future<UserCredential> firebaseGoogleSignIn() async {
-    try {
-      // trying google auth
-      OAuthCredential googleAuthCredential = await makeGoogleAuth();
-
-      // Once signed in, making google sign up with firebase
-      UserCredential signedUserCredential = await FirebaseAuth.instance
-          .signInWithCredential(googleAuthCredential);
-      return signedUserCredential;
-    } on FirebaseAuthException catch (e) {
-      throw handleFirebaseException(e);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
   Future<UserCredential> firebaseFacebookSignIn() async {
     try {
       // trying fb auth
@@ -110,20 +123,5 @@ class AuthServices {
     }
   }
 
-  Future<void> firebaseEmailSignUp(
-      {required String emailId, required String password}) async {
-    try {
-      await FirebaseAuth.instance.createUserWithEmailAndPassword(
-        email: emailId,
-        password: password,
-      );
-    } on FirebaseAuthException catch (e) {
-      throw handleFirebaseException(e);
-    } catch (e) {
-      rethrow;
-    }
-  }
-
-  firebaseGoogleSignUp() {}
   firebaseFacebookSignUp() {}
 }

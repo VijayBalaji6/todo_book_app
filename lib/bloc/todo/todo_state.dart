@@ -29,3 +29,4 @@ class RegisterTodoService extends TodoState {
   @override
   List<Object> get props => [];
 }
+

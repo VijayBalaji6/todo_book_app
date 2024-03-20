@@ -25,10 +25,6 @@ class SignInScreen extends StatelessWidget {
             CommonStylesAndWidget.showSnackbar(
                 context: context,
                 snackBarMessage: "Signed In As : ${state.successMessage}");
-            context.read<TodoBloc>().add(const RegisterTodoServicesEvent());
-            context
-                .read<TodoBloc>()
-                .add(LoadTodoEvent(userId: state.user.userId));
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (context) => HomeScreen(
@@ -36,10 +32,13 @@ class SignInScreen extends StatelessWidget {
                   ),
                 ),
                 (route) => false);
+            context
+                .read<TodoBloc>()
+                .add(LoadTodoEvent(userId: state.user.userId));
           } else if (state is SignedInFailedState) {
             CommonStylesAndWidget.showSnackbar(
                 context: context,
-                snackBarMessage: "Sign Up Failed : ${state.failerMessage}");
+                snackBarMessage: "Sign Up Failed : ${state.failureMessage}");
           }
         },
         builder: (context, state) {

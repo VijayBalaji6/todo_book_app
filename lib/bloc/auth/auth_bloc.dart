@@ -17,6 +17,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<FacebookSignInEvent>(facebookSignIn);
     on<GoogleSignInEvent>(googleSignIn);
     on<EmailSignUpEvent>(emailSignUp);
+    on<FacebookSignUpEvent>(_facebookSignUp);
+    on<GoogleSignUpEvent>(_googleSignUp);
   }
 
   /// Sign up Bloc
@@ -33,7 +35,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
         user: user,
       ));
     } catch (e) {
-      emit(SignedInFailedState(failerMessage: '$e'));
+      emit(SignedInFailedState(failureMessage: '$e'));
     }
   }
 
@@ -47,7 +49,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
           userId: loggedInUsedData.additionalUserInfo!.profile.toString());
       emit(SignedInSuccessState(successMessage: "", user: user));
     } catch (e) {
-      emit(SignedInFailedState(failerMessage: 'Facebook sign up error$e'));
+      emit(SignedInFailedState(failureMessage: 'Facebook sign up error$e'));
     }
   }
 
@@ -56,12 +58,13 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     try {
       emit(const SigningInState(signingInMessage: 'Signing In.....'));
 
-      await _authServices.firebaseGoogleSignIn();
-      final user = await _userServices.getUser(userId: "nvbalaji6@gmail.com");
-      emit(SignedInSuccessState(
-          successMessage: "nvbalaji6@gmail.com", user: user));
+      UserCredential userCredential =
+          await _authServices.firebaseGoogleSignIn();
+      String emailId = userCredential.user!.email!;
+      final user = await _userServices.getUser(userId: emailId);
+      emit(SignedInSuccessState(successMessage: emailId, user: user));
     } catch (e) {
-      emit(SignedInFailedState(failerMessage: 'Google sign up error$e'));
+      emit(SignedInFailedState(failureMessage: 'Google sign up error$e'));
     }
   }
 
@@ -81,6 +84,39 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
               userProfileImage: ""));
       final UserModel userData =
           await _userServices.getUser(userId: event.email);
+      emit(SignedUpSuccessState(
+          successMessage: 'Signed up as ${userData.userName}', user: userData));
+    } catch (e) {
+      emit(SignedUpFailedState(signingUpFailureMessage: e.toString()));
+    }
+  }
+
+  Future<void> _facebookSignUp(
+      FacebookSignUpEvent event, Emitter<AuthState> emit) async {
+    try {
+      emit(const SigningUpState(signingUpMessage: 'Signing Up.....'));
+
+      // emit(SignedUpSuccessState(
+      //     successMessage: 'Signed up as ${userData.userName}', user: userData));
+    } catch (e) {
+      emit(SignedUpFailedState(signingUpFailureMessage: e.toString()));
+    }
+  }
+
+  Future<void> _googleSignUp(
+      GoogleSignUpEvent event, Emitter<AuthState> emit) async {
+    try {
+      emit(const SigningUpState(signingUpMessage: 'Signing Up.....'));
+      UserCredential userCredential =
+          await _authServices.firebaseGoogleSignIn();
+      String emailId = userCredential.user!.email!;
+      await _userServices.addUser(
+          userDate: UserModel(
+              userName: emailId,
+              userId: emailId,
+              loginType: "Google",
+              userProfileImage: ""));
+      final UserModel userData = await _userServices.getUser(userId: emailId);
       emit(SignedUpSuccessState(
           successMessage: 'Signed up as ${userData.userName}', user: userData));
     } catch (e) {

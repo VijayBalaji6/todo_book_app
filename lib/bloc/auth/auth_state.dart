@@ -23,8 +23,8 @@ final class SignedInSuccessState extends AuthState {
 }
 
 final class SignedInFailedState extends AuthState {
-  final String failerMessage;
-  const SignedInFailedState({required this.failerMessage});
+  final String failureMessage;
+  const SignedInFailedState({required this.failureMessage});
 }
 
 /// Sign up States

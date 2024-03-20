@@ -13,12 +13,17 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
   TodoBloc(
     this._todoLocalServices,
   ) : super(RegisterTodoService()) {
+    on<RegisterTodoServicesEvent>(_onRegisterTodoService);
     on<LoadTodoEvent>(_onLoadTodo);
     on<AddTodoEvent>(_onAddTodo);
     on<DeleteTodoEvent>(_onDeleteTodo);
     on<EditTodoEvent>(_onEditTodo);
   }
 
+  void _onRegisterTodoService(
+      RegisterTodoServicesEvent event, Emitter<TodoState> emit) async {
+    await TodoLocalServices.instance.init();
+  }
 
   void _onLoadTodo(LoadTodoEvent event, Emitter<TodoState> emit) {
     emit(TodoLoading());

@@ -3,7 +3,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/bloc/todo/todo_bloc.dart';
 import 'package:todo/common_widgets/common_widgets.dart';
 import 'package:todo/model/todo.dart';
-import 'package:todo/view/todo_screen/add_edit_todo_screen.dart';
+import 'package:todo/view/home_screen/todo_screen/add_edit_todo_screen.dart';
 
 class TodoTile extends StatelessWidget {
   const TodoTile({

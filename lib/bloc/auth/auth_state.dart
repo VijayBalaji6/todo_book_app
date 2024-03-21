@@ -7,47 +7,54 @@ sealed class AuthState extends Equatable {
   List<Object> get props => [];
 }
 
-final class AuthInitial extends AuthState {}
+final class AuthInitialState extends AuthState {}
+
+final class UnAuthenticatedState extends AuthState {}
+
+final class AuthenticatedState extends AuthState {
+  final UserModel loggedUserDate;
+
+  const AuthenticatedState({required this.loggedUserDate});
+}
 
 /// Sign In States
-final class SigningInState extends AuthState {
+final class SigningInState extends UnAuthenticatedState {
   final String signingInMessage;
-  const SigningInState({required this.signingInMessage});
+  SigningInState({required this.signingInMessage});
 }
 
-final class SignedInSuccessState extends AuthState {
+final class SignedInSuccessState extends UnAuthenticatedState {
   final String successMessage;
   final UserModel user;
-  const SignedInSuccessState(
-      {required this.user, required this.successMessage});
+  SignedInSuccessState({required this.user, required this.successMessage});
 }
 
-final class SignedInFailedState extends AuthState {
+final class SignedInFailedState extends UnAuthenticatedState {
   final String failureMessage;
-  const SignedInFailedState({required this.failureMessage});
+  SignedInFailedState({required this.failureMessage});
 }
 
 /// Sign up States
-final class SigningUpState extends AuthState {
+final class SigningUpState extends UnAuthenticatedState {
   final String signingUpMessage;
-  const SigningUpState({required this.signingUpMessage});
+  SigningUpState({required this.signingUpMessage});
 }
 
-final class SignedUpSuccessState extends AuthState {
+final class SignedUpSuccessState extends UnAuthenticatedState {
   final String successMessage;
   final UserModel user;
-  const SignedUpSuccessState({
+  SignedUpSuccessState({
     required this.successMessage,
     required this.user,
   });
 }
 
-final class SignedUpFailedState extends AuthState {
+final class SignedUpFailedState extends UnAuthenticatedState {
   final String signingUpFailureMessage;
-  const SignedUpFailedState({required this.signingUpFailureMessage});
+  SignedUpFailedState({required this.signingUpFailureMessage});
 }
 
-final class SignedUpEventErrorState extends AuthState {
+final class SignedUpEventErrorState extends UnAuthenticatedState {
   final String signedUpEventErrorMsg;
-  const SignedUpEventErrorState({required this.signedUpEventErrorMsg});
+  SignedUpEventErrorState({required this.signedUpEventErrorMsg});
 }

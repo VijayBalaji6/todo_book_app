@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/common_widgets/common_app_button.dart';
 import 'package:todo/common_widgets/common_widgets.dart';
+import 'package:todo/services/local_db/user_local_services.dart';
 import 'package:todo/view/authentication_screen/sign_in_screen.dart';
 
 class SettingsScreen extends StatelessWidget {
@@ -23,9 +24,10 @@ class SettingsScreen extends StatelessWidget {
             ),
             CommonAppButton(
               buttonAction: () async {
-                await FirebaseAuth.instance.signOut();
                 Navigator.pushReplacement(context,
                     MaterialPageRoute(builder: (context) => SignInScreen()));
+                UserLocalServices.clearUserDataOnLogOut();
+                await FirebaseAuth.instance.signOut();
               },
               buttonName: 'Log Out',
             ),

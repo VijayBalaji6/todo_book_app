@@ -3,8 +3,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/constants/colors.dart';
 import 'package:todo/constants/notifiers.dart';
 import 'package:todo/model/user.dart';
-import 'package:todo/view/settings_screen/settings_screen.dart';
-import 'package:todo/view/todo_screen/todo_home_screen.dart';
+import 'package:todo/view/home_screen/settings_screen/settings_screen.dart';
+import 'package:todo/view/home_screen/todo_screen/todo_home_screen.dart';
 
 class HomeScreen extends StatelessWidget {
   final UserModel user;

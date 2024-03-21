@@ -4,8 +4,8 @@ import 'package:todo/bloc/todo/todo_bloc.dart';
 import 'package:todo/common_widgets/common_app_button.dart';
 import 'package:todo/common_widgets/common_widgets.dart';
 import 'package:todo/model/user.dart';
-import 'package:todo/view/todo_screen/add_edit_todo_screen.dart';
-import 'package:todo/view/todo_screen/todo_tile.dart';
+import 'package:todo/view/home_screen/todo_screen/add_edit_todo_screen.dart';
+import 'package:todo/view/home_screen/todo_screen/todo_tile.dart';
 
 class TodoHomeScreen extends StatelessWidget {
   final UserModel userData;

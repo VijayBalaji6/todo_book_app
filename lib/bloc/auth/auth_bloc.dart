@@ -1,9 +1,12 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 import 'package:todo/model/user.dart';
+import 'package:todo/services/local_db/user_local_services.dart';
 import 'package:todo/services/remote_db/auth_services.dart';
 import 'package:todo/services/remote_db/user_services.dart';
+import 'package:todo/view/home_screen/home_screen.dart';
 
 part 'auth_event.dart';
 part 'auth_state.dart';
@@ -12,7 +15,8 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   final AuthServices _authServices;
   final UserServices _userServices;
 
-  AuthBloc(this._authServices, this._userServices) : super(AuthInitial()) {
+  AuthBloc(this._authServices, this._userServices) : super(AuthInitialState()) {
+    on<CheckAuthenticationEvent>(_checkAuthentication);
     on<EmailSignInEvent>(emailSignIn);
     on<FacebookSignInEvent>(facebookSignIn);
     on<GoogleSignInEvent>(googleSignIn);
@@ -21,12 +25,24 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
     on<GoogleSignUpEvent>(_googleSignUp);
   }
 
-  /// Sign up Bloc
+  Future<void> _checkAuthentication(
+      CheckAuthenticationEvent event, Emitter<AuthState> emit) async {
+    await Future.delayed(const Duration(seconds: 3));
+    if (await UserLocalServices.isUserLoggedIn()) {
+      UserModel? loggedUserData = await UserLocalServices.getLoggedUserData();
+      loggedUserData != null
+          ? emit(AuthenticatedState(loggedUserDate: loggedUserData))
+          : emit(UnAuthenticatedState());
+    } else {
+      emit(UnAuthenticatedState());
+    }
+  }
 
+  /// Sign up Bloc
   Future<void> emailSignIn(
       EmailSignInEvent event, Emitter<AuthState> emit) async {
     try {
-      emit(const SigningInState(signingInMessage: 'Signing In.....'));
+      emit(SigningInState(signingInMessage: 'Signing In.....'));
       await _authServices.firebaseEmailSignIn(
           emailId: event.email, password: event.password);
       final user = await _userServices.getUser(userId: event.email);
@@ -42,7 +58,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> facebookSignIn(
       FacebookSignInEvent event, Emitter<AuthState> emit) async {
     try {
-      emit(const SigningInState(signingInMessage: 'Signing In.....'));
+      emit(SigningInState(signingInMessage: 'Signing In.....'));
       final UserCredential loggedInUsedData =
           await _authServices.firebaseFacebookSignIn();
       final user = await _userServices.getUser(
@@ -56,8 +72,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> googleSignIn(
       GoogleSignInEvent event, Emitter<AuthState> emit) async {
     try {
-      emit(const SigningInState(signingInMessage: 'Signing In.....'));
-
+      emit(SigningInState(signingInMessage: 'Signing In.....'));
       UserCredential userCredential =
           await _authServices.firebaseGoogleSignIn();
       String emailId = userCredential.user!.email!;
@@ -73,7 +88,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> emailSignUp(
       EmailSignUpEvent event, Emitter<AuthState> emit) async {
     try {
-      emit(const SigningUpState(signingUpMessage: 'Signing Up.....'));
+      emit(SigningUpState(signingUpMessage: 'Signing Up.....'));
       await _authServices.firebaseEmailSignUp(
           emailId: event.email, password: event.password);
       await _userServices.addUser(
@@ -94,7 +109,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _facebookSignUp(
       FacebookSignUpEvent event, Emitter<AuthState> emit) async {
     try {
-      emit(const SigningUpState(signingUpMessage: 'Signing Up.....'));
+      emit(SigningUpState(signingUpMessage: 'Signing Up.....'));
 
       // emit(SignedUpSuccessState(
       //     successMessage: 'Signed up as ${userData.userName}', user: userData));
@@ -106,7 +121,7 @@ class AuthBloc extends Bloc<AuthEvent, AuthState> {
   Future<void> _googleSignUp(
       GoogleSignUpEvent event, Emitter<AuthState> emit) async {
     try {
-      emit(const SigningUpState(signingUpMessage: 'Signing Up.....'));
+      emit(SigningUpState(signingUpMessage: 'Signing Up.....'));
       UserCredential userCredential =
           await _authServices.firebaseGoogleSignIn();
       String emailId = userCredential.user!.email!;

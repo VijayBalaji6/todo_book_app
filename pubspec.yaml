@@ -26,6 +26,7 @@ dependencies:
   hive: 
   hive_flutter: 
   go_router:
+  shared_preferences:
 
 dev_dependencies:
   flutter_test:

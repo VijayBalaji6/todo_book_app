@@ -6,6 +6,7 @@ import 'package:todo/bloc/todo/todo_bloc.dart';
 import 'package:todo/constants/colors.dart';
 import 'package:todo/common_widgets/common_app_button.dart';
 import 'package:todo/common_widgets/common_widgets.dart';
+import 'package:todo/services/local_db/user_local_services.dart';
 import 'package:todo/view/authentication_screen/sign_up_screen.dart';
 import 'package:todo/view/home_screen/home_screen.dart';
 
@@ -25,6 +26,7 @@ class SignInScreen extends StatelessWidget {
             CommonStylesAndWidget.showSnackbar(
                 context: context,
                 snackBarMessage: "Signed In As : ${state.successMessage}");
+            UserLocalServices.saveUserDate(userDate: state.user);
             Navigator.of(context).pushAndRemoveUntil(
                 MaterialPageRoute(
                   builder: (context) => HomeScreen(

@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/bloc/auth/auth_bloc.dart';
+import 'package:todo/bloc/todo/todo_bloc.dart';
 import 'package:todo/constants/colors.dart';
 import 'package:todo/view/authentication_screen/sign_in_screen.dart';
 import 'package:todo/view/home_screen/home_screen.dart';
@@ -17,6 +18,9 @@ class SplashScreen extends StatelessWidget {
         child: BlocListener<AuthBloc, AuthState>(
           listener: (BuildContext context, state) {
             if (state is AuthenticatedState) {
+              context
+                  .read<TodoBloc>()
+                  .add(LoadTodoEvent(userId: state.loggedUserDate.userId));
               Navigator.pushReplacement(
                   context,
                   MaterialPageRoute(

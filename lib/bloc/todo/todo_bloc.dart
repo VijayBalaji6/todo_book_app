@@ -20,7 +20,7 @@ class TodoBloc extends Bloc<TodoEvent, TodoState> {
     on<EditTodoEvent>(_onEditTodo);
   }
 
-  void _onRegisterTodoService(
+  Future<void> _onRegisterTodoService(
       RegisterTodoServicesEvent event, Emitter<TodoState> emit) async {
     await TodoLocalServices.instance.init();
   }

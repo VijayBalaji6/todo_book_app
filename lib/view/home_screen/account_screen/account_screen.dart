@@ -1,12 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:todo/common_widgets/common_app_button.dart';
-import 'package:todo/common_widgets/common_widgets.dart';
 import 'package:todo/services/local_db/user_local_services.dart';
 import 'package:todo/view/authentication_screen/sign_in_screen.dart';
 
-class SettingsScreen extends StatelessWidget {
-  const SettingsScreen({super.key});
+class AccountScreen extends StatelessWidget {
+  const AccountScreen({super.key});
 
   @override
   Widget build(BuildContext context) {

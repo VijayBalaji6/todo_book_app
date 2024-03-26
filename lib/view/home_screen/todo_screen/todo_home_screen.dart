@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:todo/bloc/todo/todo_bloc.dart';
 import 'package:todo/common_widgets/common_app_button.dart';
-import 'package:todo/common_widgets/common_widgets.dart';
 import 'package:todo/model/user.dart';
 import 'package:todo/view/home_screen/todo_screen/add_edit_todo_screen.dart';
 import 'package:todo/view/home_screen/todo_screen/todo_tile.dart';
@@ -19,7 +18,9 @@ class TodoHomeScreen extends StatelessWidget {
           floatingActionButton: FloatingActionButton(
             child: const Icon(Icons.add),
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
-                builder: (BuildContext context) => const AddEditTodoScreen())),
+                builder: (BuildContext context) => AddEditTodoScreen(
+                      userId: userData.userId,
+                    ))),
           ),
           backgroundColor: Colors.white,
           body: SafeArea(
@@ -34,11 +35,17 @@ class TodoHomeScreen extends StatelessWidget {
                       horizontal: 10.0, vertical: 10),
                   child: Column(
                     children: [
-                      /// App Home Page Title
-                      const Text(
-                        "List Of Todos",
-                        style: TextStyle(
-                            fontSize: 20, fontWeight: FontWeight.bold),
+                      const Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          ///
+                          Text(
+                            "Today's Todo",
+                            style: TextStyle(
+                                fontSize: 20, fontWeight: FontWeight.bold),
+                          ),
+                          Icon(Icons.notifications)
+                        ],
                       ),
 
                       /// List Of Todos

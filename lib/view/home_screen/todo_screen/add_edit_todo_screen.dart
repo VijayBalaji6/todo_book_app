@@ -6,8 +6,9 @@ import 'package:todo/common_widgets/common_widgets.dart';
 import 'package:todo/model/todo.dart';
 
 class AddEditTodoScreen extends StatefulWidget {
-  const AddEditTodoScreen({super.key, this.todo});
+  const AddEditTodoScreen({super.key, this.todo, required this.userId});
   final Todo? todo;
+  final String userId;
 
   @override
   State<AddEditTodoScreen> createState() => _AddEditTodoScreenState();
@@ -95,7 +96,8 @@ class _AddEditTodoScreenState extends State<AddEditTodoScreen> {
                   buttonName: editTodo ? 'Edit Todo' : 'Add Todo',
                   buttonAction: () {
                     final Todo todoData = Todo(
-                      userID: "",
+                      todoTime: DateTime.now(),
+                      userID: widget.userId,
                       title: todoTitle.text,
                       id: editTodo
                           ? editTodoData!.id

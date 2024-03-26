@@ -3,7 +3,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:todo/constants/colors.dart';
 import 'package:todo/constants/notifiers.dart';
 import 'package:todo/model/user.dart';
-import 'package:todo/view/home_screen/settings_screen/settings_screen.dart';
+import 'package:todo/view/home_screen/account_screen/account_screen.dart';
+import 'package:todo/view/home_screen/dashboard_screen/dasrhboard_sceen.dart';
+import 'package:todo/view/home_screen/expense_screen/expernse_screen.dart';
 import 'package:todo/view/home_screen/todo_screen/todo_home_screen.dart';
 
 class HomeScreen extends StatelessWidget {
@@ -17,18 +19,23 @@ class HomeScreen extends StatelessWidget {
         builder: ((context, value, child) => Scaffold(
               body: getHomePageBody(currentSelectedPage: value),
               bottomNavigationBar: BottomNavigationBar(
+                type: BottomNavigationBarType.fixed,
                 items: const [
                   BottomNavigationBarItem(
                     icon: Icon(Icons.home),
+                    label: 'Home',
+                  ),
+                  BottomNavigationBarItem(
+                    icon: Icon(Icons.calendar_month),
                     label: 'Todos',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.money_off_csred),
+                    icon: Icon(Icons.monetization_on),
                     label: 'Expenses',
                   ),
                   BottomNavigationBarItem(
-                    icon: Icon(Icons.settings),
-                    label: 'Settings',
+                    icon: Icon(Icons.person),
+                    label: 'Account',
                   ),
                 ],
                 currentIndex: currentSelectedPage.value,
@@ -37,11 +44,11 @@ class HomeScreen extends StatelessWidget {
                 backgroundColor: AppColors.primaryDark,
                 unselectedItemColor: Colors.white,
                 unselectedLabelStyle:
-                    TextStyle(color: AppColors.primaryDark, fontSize: 10.sp),
-                unselectedIconTheme:
-                    IconThemeData(color: Colors.white, size: 25.sp),
+                    TextStyle(color: AppColors.primaryDark, fontSize: 8.sp),
                 selectedLabelStyle:
                     TextStyle(color: AppColors.primaryDark, fontSize: 13.sp),
+                unselectedIconTheme:
+                    IconThemeData(color: Colors.white, size: 25.sp),
                 selectedItemColor: AppColors.primaryLight,
                 selectedFontSize: 13.sp,
                 selectedIconTheme:
@@ -50,18 +57,21 @@ class HomeScreen extends StatelessWidget {
             )));
   }
 
+
   Widget getHomePageBody({required int currentSelectedPage}) {
     switch (currentSelectedPage) {
       case 0:
+        return const DashboardScreen();
+      case 1:
         return TodoHomeScreen(
           userData: user,
         );
-      case 1:
-        return const SettingsScreen();
       case 2:
-        return const SettingsScreen();
+        return const ExpenseScreen();
+      case 3:
+        return const AccountScreen();
       default:
-        return const SettingsScreen();
+        return const DashboardScreen();
     }
   }
 }

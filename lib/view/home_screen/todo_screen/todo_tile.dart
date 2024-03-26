@@ -20,11 +20,6 @@ class TodoTile extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
-      leading: Text(
-        index.toString(),
-        style: const TextStyle(
-            color: Colors.blue, fontSize: 18, fontWeight: FontWeight.w800),
-      ),
       trailing: Row(
         mainAxisSize: MainAxisSize.min,
         children: [
@@ -33,6 +28,7 @@ class TodoTile extends StatelessWidget {
             onPressed: () => Navigator.of(context).push(MaterialPageRoute(
                 builder: (BuildContext context) => AddEditTodoScreen(
                       todo: todo,
+                      userId: todo.userID,
                     ))),
           ),
           IconButton(
@@ -68,6 +64,19 @@ class TodoTile extends StatelessWidget {
             todo.content,
             style: const TextStyle(
                 color: Colors.black, fontSize: 14, fontWeight: FontWeight.w600),
+          ),
+          Row(
+            crossAxisAlignment: CrossAxisAlignment.center,
+            children: [
+              const Icon(Icons.timer),
+              Text(
+                todo.todoTime.toString(),
+                style: const TextStyle(
+                    color: Colors.black,
+                    fontSize: 14,
+                    fontWeight: FontWeight.w600),
+              ),
+            ],
           ),
         ],
       ),
